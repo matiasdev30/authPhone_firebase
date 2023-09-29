@@ -1,0 +1,227 @@
+import 'package:authphone_firebase/utils/utils.dart';
+import 'package:flutter/material.dart';
+import 'dart:math' as math;
+
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+  late Animation animationMoveFirstComponent;
+  late Animation animationRotateFirstComponent;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 340));
+    animationMoveFirstComponent =
+        Tween<double>(begin: 0, end: 600).animate(animationController);
+    animationRotateFirstComponent =
+        Tween<double>(begin: 0, end: 40).animate(animationController);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            color: const Color(0xff222427),
+            width: screenWidth(context),
+            height: screenHeigth(context),
+            padding: const EdgeInsets.all(40),
+            child: SafeArea(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundColor: Color(0xffF5F5F8),
+                          radius: 35,
+                          child: FlutterLogo(
+                            size: 55,
+                          ),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                            onPressed: () {
+                              animationController.reverse();
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 30,
+                            ))
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    item(icon: Icons.home, text: "Home"),
+                    item(icon: Icons.notifications, text: "Notification"),
+                    item(icon: Icons.person, text: "Profile"),
+                    item(icon: Icons.messenger_sharp, text: "Messange"),
+                    item(icon: Icons.help, text: "Ajuda"),
+                    item(icon: Icons.info, text: "Quem somos?"),
+                    item(icon: Icons.logout, text: "Log out"),
+                  ]),
+            ),
+          ),
+          AnimatedBuilder(
+            animation: animationRotateFirstComponent,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Container(
+                width: screenWidth(context),
+                height: screenHeigth(context),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color:  const Color(0xff515152),
+                ),
+              ),
+            ),
+            builder: (context, child) {
+              return Transform(
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2,
+                      0.001) // Ajuste de perspectiva para manter o componente visível
+                  ..rotateX(
+                      (animationRotateFirstComponent.value * .3).clamp(0, 90) *
+                          math.pi /
+                          80)
+                  ..translate(0.0, animationMoveFirstComponent.value - 30),
+                alignment: Alignment.center,
+                child: child,
+              );
+            },
+          ),
+          AnimatedBuilder(
+            animation: animationRotateFirstComponent,
+            child: Container(
+              width: screenWidth(context),
+              height: screenHeigth(context),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                color: const Color(0xffF5F5F8),
+              ),
+              child: firstComponet(),
+            ),
+            builder: (context, child) {
+              return Transform(
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2,
+                      0.001) // Ajuste de perspectiva para manter o componente visível
+                  ..rotateX(
+                      (animationRotateFirstComponent.value * .3).clamp(0, 90) *
+                          math.pi /
+                          80)
+                  ..translate(0.0, animationMoveFirstComponent.value),
+                alignment: Alignment.center,
+                child: child,
+              );
+            },
+          )
+
+          /* AnimatedBuilder(
+            child: firstComponet(),
+            animation: animationController,
+            builder: (context, child) => Positioned(
+                top: animationMoveFirstComponent.value,
+                child: Center(
+                  child: Transform(
+                    transform: Matrix4.skewY(0.3),
+                    child: AnimatedContainer(
+                      duration: animationController.duration!,
+                      height: screenHeigth(context),
+                      width: screenWidth(context),
+                      child: SizedBox(
+                        child: Padding(
+                          padding: animationController.isAnimating ||
+                                  animationController.isCompleted
+                              ? const EdgeInsets.only(left: 20, right: 20)
+                              : const EdgeInsets.all(0),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                   animationController.isAnimating ||
+                                  animationController.isCompleted
+                                        ? BorderRadius.circular(40)
+                                        : null,
+                                color: const Color(0xffF5F5F8),
+                              ),
+                              child: firstComponet()),
+                        ),
+                      ),
+                    ),
+                  ),
+                )),
+          ), */
+        ],
+      ),
+    );
+  }
+
+  firstComponet() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 80, bottom: 5),
+          child: Row(
+            children: [
+              const Text(
+                "Seu conteudo aqui",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      animationController.forward();
+                    });
+                  },
+                  icon: const Icon(Icons.menu))
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  item({required IconData icon, required String text}) {
+    return Row(
+      children: [
+        IconButton(
+            onPressed: () {
+              animationController.reverse();
+            },
+            icon: Icon(
+              icon,
+              color: Colors.white,
+              size: 20,
+            )),
+        Text(
+          text,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        )
+      ],
+    );
+  }
+}
