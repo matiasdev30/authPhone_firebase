@@ -1,16 +1,6 @@
 # authphone_firebase
 
-A new Flutter project.
+A simple example of authentication with a Firebase phone number
 
-## Getting Started
+https://github.com/matiasdev30/authPhone_firebase/assets/50122963/96a5ed3b-0fe6-4834-98f1-25b9a1a03f9e
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
