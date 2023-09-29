@@ -8,8 +8,9 @@ import 'features/auth/presenter/views/auth_screen_number_phone_validate.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
- 
-  //FirebaseDatabase.instance.setPersistenceEnabled(true);
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+  );
   autoInjectorInit();
 
   runApp(const MyApp());
