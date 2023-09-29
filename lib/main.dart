@@ -1,6 +1,7 @@
 import 'package:authphone_firebase/app/app.router.router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'app/auto_injector.dart';
 import 'features/auth/presenter/views/auth_screen_number_phone_validate.dart';
